@@ -75,15 +75,6 @@ This cluster is meant for running critical applications such as Containerized Da
 
 ### Go-to-Market  _(Tier 1 Only)_
 
-_Outline an external announcement on what you will be launching and why should our customers use the feature._
-
-_Subheading 1_
-
-_Subheading 2_
-
-Unlocking a New Era of Data Management: Cloudera Launches Externalized Compute Cluster for fast-paced delivery of platform capabilities and reduced Operational Overhead.
-
-\[Santa Clara, CA, January 2024] – Cloudera, a global leader in data management and analytics, is proud to announce the release of its Externalized Compute Cluster, designed to facilitate customers in deploying and leveraging their data assets. With this cutting-edge offering, Cloudera empowers businesses to provision their data services effortlessly while ensuring reliability and flexibility.
 
 The Externalized Compute Cluster represents Operational Innovation in hosting and managing data services, enabling organizations to embrace the power of containerization for their data infrastructure. Built on Cloudera's legacy of reliability and innovation, this solution eases the operational overhead, reduces the total cost of ownership, provides for synchronized feature availability and standardizes the platform for all data services.
 
@@ -105,37 +96,10 @@ Key Advantages of Cloudera's Externalized Compute Cluster:
 
 The Externalized Compute Cluster is poised to unlock new opportunities for organizations seeking to harness the power of their data. With containerization, Cloudera enables customers to achieve unprecedented agility and scalability in managing their data resources, and with externalized compute clusters, it makes managing containerized workloads just as easy as intuitive.
 
-For more information about Cloudera's Externalized Compute Cluster and how it can transform your data infrastructure, please visit \[Product Landing Page] or contact \[Contact Information].
-
 About Cloudera:
 
 Cloudera is a leading global provider of data management and analytics solutions, empowering organizations to transform complex data into clear and actionable insights. Our platform provides the tools, capabilities, and expertise to drive innovation and achieve superior business outcomes.
 
-
-### Requirements
-
-_These are the distinct, prioritized requirements and a short explanation of why they are important. Once the requirements have been gathered, ensure that discussions with Engineering are complete and record the response._
-
-
-##### v2 Environments
-
-**_We’re marking the Environment “v2” depending on whether the externalized compute clusters are enabled for the Environment._**
-
-What does “Environment v2” mean?It’s critical to clarify the exact scope of “v2”. Before getting into what it is, **_we should enumerate what it isn’t:_*** Not a new version of Datalake
-
-* Not CDL
-
-* Not a new version of SDX
-
-* Not a collection of CDL and Metadata services (Airflow, CMLSA etc.)That is, **simply setting “environment v2” doesn’t dictate the provisioning sequence downstream.** What “Environment 2.0” is:* A new platform version which lets customers manage Compute Resources for Data applications - and share them between applications.
-
-* A platform version **needed** for CDL
-
-* A platform version **needed** for SDX (a collection of CDL and metadata services - Data Catalog, Data Sharing Server etc.)
-
-* A platform version **needed** for newer Data Applications (Airflow, CMLSA, VIzApp etc.)**_Can environment v2 be enabled for legacy environments (VM based data-lakes)?_**Yes, customers can enable “environment v2” for already running environments. This will let customers deploy current data services (CDE, CML, CDF) **and** future services (Data Catalog, CML Model Serving, Airflow xyz) on the new platform, along with the platform capabilities described in this document. However, CDL itself **cannot** be deployed on legacy environments. And there may be some applications which require CDL ( we don’t know this yet ), and hence **can’t** be provisioned with legacy environments. **_Will environment v2 be the default way of creating environments ?_**No, unless there’s a compelling reason (for example - we push only CDL creations), Non environment v2 will still remain the default. Environment v2 clusters come with additional default compute cluster footprint (EKS Control Plane for AWS, AKS control plane + Infra nodes for Azure). Customers who are okay using our product as it is today won’t be forced to create environment v2 Environments. But availability of new services only on environment v2,  and success metrics described above should convince customers to __**_choose_** environment v2.  |   |   |   |   |
-
-_Note: Compute Cluster here implies Externalized Compute unless explicitly specified otherwise. Embedded isn’t covered as a part of this doc._
 
 
 **_All actions below require an EnvironmentAdmin role._**
@@ -177,14 +141,6 @@ CLI examples:
 **_Note:_** _The CLI examples listed here are only illustrative. The final command, subcommand and parameter names will be decided by Engineering._ 
 
 
-##### Use-cases for Workload Administration
-
-- _P1: List externalized compute clusters available for workload provisioning_ 
-
-- _P1: Select an externalized compute cluster when deploying a data service_
-
-
-
 
 CLI examples:
 
@@ -196,131 +152,6 @@ CLI examples:
 | _List externalized compute clusters available for workload provisioning_  | `cdp <workload_placeholder> list-available-compute-clusters –env-crn <env_crn> `                                                  |
 | _Select an externalized compute cluster when deploying a data service_    | `cdp <workload_placeholder> deploy-instance –compute-cluster-crn <compute_cluster_crn> --min-k8s-node-count --max-k8s-node-count` |
 
-\
-
-
-
-### UX for Application Provisioning on the External Compute Clusters - Proposal/Draft
-
-Before externalized compute clusters, each data service had a CRUD application which - 
-
-- Requested Liftie to provision a physical compute cluster with provided parameters, and also:
-
-  - Created Liftie node group
-
-  - Installed Liftie-infra charts
-
-       (Common)
-
-- Created Service node groups (if requested)
-
-* Managed deployments (helm charts) on the Liftie provisioned k8s cluster.
-
-       (Service Specific)
-
-
-Externalized compute cluster will decouple these into layers demonstrated below:
-
-(Referenced from [Jayush Luniya](mailto:jluniya@cloudera.com)’s design [here)](https://miro.com/app/board/uXjVKefghCk=/)
-
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXceJf9xWOjaW33e_aYPSXzoRPXtR_WIghj2lJcRcARyKlvkxIQxxR7NsZAQDs9M7lxH_wN4v1-G88IVMgZNgKWcSSW3P5gYp6RAzh4g7G6kxDvbABkOUri-sAj584xYNbQ6ho75eHx7l8n6Fbr8eM6TsfOd?key=IfBOgWCOphsauFycBxG7qw)
-
-**_(Note- Ignore CDP Studio for this discussion)_** 
-
-
-### **Layer 1 (Externalized Platform) -** The externalized compute cluster itself, composed of physical k8s cluster + Liftie infra node group + Liftie infra charts + resource management + Interfaces to external Database and Storage. 
-
-Each application looking to be hosted on a running external compute cluster will get this platform out-of-the-box.
-
-
-### **Layer 2 (Cloudera Service Manager - Optional)** -  Extended capability provided by Compute team to manage application dependencies (application nodegroups, application helm charts, application cloud prerequisites (RDS, Custom Encryption, NFS etc.) . The Cloudera Service Manager will understand application requirements via a spec file (mostly YAML) and translate them to actual resources.
-
-Combined, Layer 1 and Layer 2 should **_replace_** the individual data service CRUD applications, and should be the default way of onboarding. But, for data services already having a CRUD application, this brings asymmetry in UX for embedded/ external mode and possibly requires more work to integrate into CSM.
-
-Therefore, below options are provided to Applications (referenced from [Vinod Kumar Vavilapalli](mailto:vinodkv@cloudera.com)’s suggestion [here](https://docs.google.com/document/d/1G2xhnPUR1HRviakE2KOaJkUdPynm_JR4vmB-rd5E9fM/edit)) - 
-
-- **Integrate at Layer 1** - Applications still relying on their own CRUD apps will do this. 
-
-However, the scope of that CRUD app will change to manage only the application specific part described above. In other words, the CRUD app will not touch the externalized platform but use the provided k8s cluster details.
-
-_For Example a DFX enable-service on External Compute Cluster will change from_  
-
-```
-COMMAND
-	df
-NAME
-       enable-service - Enable DataFlow service from a CDP environment.
-DESCRIPTION
-       Enable DataFlow service from a CDP environment.
-SYNOPSIS
-            enable-service
-          --environment-crn <value>
-          --min-k8s-node-count <value>
-          --max-k8s-node-count <value>
-          --use-public-load-balancer | --no-use-public-load-balancer
-          [--kube-api-authorized-ip-ranges <value>]
-          [--tags <value>]
-          [--load-balancer-authorized-ip-ranges <value>]
-          [--cluster-subnets <value>]
-          [--load-balancer-subnets <value>]
-          [--private-cluster | --no-private-cluster]
-          [--instance-type <value>]
-          [--skip-preflight-checks | --no-skip-preflight-checks]
-          [--user-defined-routing | --no-user-defined-routing]
-          [--pod-cidr <value>]
-          [--service-cidr <value>]
-          [--cli-input-json <value>]
-          [--generate-cli-skeleton]
-```
-
-_to_
-
-```
-COMMAND
-	df
-NAME
-       enable-service - Enable DataFlow service from a CDP environment.
-DESCRIPTION
-       Enable DataFlow service from a CDP environment.
-SYNOPSIS
-            enable-service
-          --environment-crn <value>
-          --min-k8s-node-count <value>
-          --max-k8s-node-count <value>
-	   --compute-cluster-crn <value>
-          [--instance-type <value>]
-          [--skip-preflight-checks | --no-skip-preflight-checks]
-          [--cli-input-json <value>]
-          [--generate-cli-skeleton]
-```
-
-- **Integrate at Layer 2 (Preferred) -** Applications who don’t have a CRUD application, or have it outdated (lack ability to manipulate Cloud Resources, for example) can bank on Cloudera Service Manager as a common entrypoint to the externalized compute cluster. This will also let those applications use the Cloud Provider Interaction brokered in a standardized manner via CSM.
-
-_For Example_
-
-
-```
-COMMAND
-	service-instance
-NAME
-       create - Enable DataFlow service from a CDP environment.
-DESCRIPTION
-       Enable DataFlow service from a CDP environment.
-SYNOPSIS
-            create
-	   --type DFX
-          --environment-crn <value>
-          --min-k8s-node-count <value>
-          --max-k8s-node-count <value>
-	   --compute-cluster-crn <value>
-          [--instance-type <value>]
-          [--cli-input-json <value>]
-          [--generate-cli-skeleton]
-```
-
-**Soft Managed (Pseudo) Layer 2 Integration** - Even if an application integrates at Layer 1, there will be a “soft pseudo-integration” at Layer 2. Customers will have the same entrypoint to the external compute cluster (via service-instance) but the request will be served by the application specific CRUD app at the backend (invisible to customers). 
-
-This not only provides for uniform/simplified UX, but also lets Compute team record and control application onboarding. [Dedicated vs Shared External Compute Cluster Problem](https://docs.google.com/document/d/1RsG0TPI1P8LDZPV2uX-as0wsp7Wou0NawarmVd6Gp94/edit#heading=h.6gmfqh424w8u) for instance, is a way to leverage Soft Integration.   
 
 
 ## References
