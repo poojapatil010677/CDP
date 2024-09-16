@@ -105,3 +105,92 @@ privateCluster=false,
 kubeApiAuthorizedIpRanges=<cidr1>,<cidr2>,
 workerNodeSubnets=<subnet1>,<subnet2>
 ```
+**What is the CLI command to register an AWS environment with a default compute cluster?**
+
+
+```
+cdp environments create-aws-environment 
+--environment-name <value> \
+--credential-name <value> \
+--region <value> \
+--security-access <value> \
+--authentication <value> \
+--log-storage <value> \
+--enable-compute-cluster
+--compute-cluster-configuration
+privateCluster=false, 
+kubeApiAuthorizedIpRanges=<cidr1>,<cidr2>,
+workerNodeSubnets=<subnet1>,<subnet2>
+```
+**What is the CLI command to register an AWS environment with a default compute cluster?**
+
+
+```
+cdp environments create-aws-environment 
+--environment-name <value> \
+--credential-name <value> \
+--region <value> \
+--security-access <value> \
+--authentication <value> \
+--log-storage <value> \
+--enable-compute-cluster
+--compute-cluster-configuration
+privateCluster=false, 
+kubeApiAuthorizedIpRanges=<cidr1>,<cidr2>,
+workerNodeSubnets=<subnet1>,<subnet2>
+```
+**What is the CLI command to register an AWS environment with a default compute cluster?**
+
+
+```
+cdp environments create-aws-environment 
+--environment-name <value> \
+--credential-name <value> \
+--region <value> \
+--security-access <value> \
+--authentication <value> \
+--log-storage <value> \
+--enable-compute-cluster
+--compute-cluster-configuration
+privateCluster=false, 
+kubeApiAuthorizedIpRanges=<cidr1>,<cidr2>,
+workerNodeSubnets=<subnet1>,<subnet2>
+```
+
+**What is the CLI command to register an AWS environment with a default compute cluster?**
+
+
+```
+cdp environments create-aws-environment 
+--environment-name <value> \
+--credential-name <value> \
+--region <value> \
+--security-access <value> \
+--authentication <value> \
+--log-storage <value> \
+--enable-compute-cluster
+--compute-cluster-configuration
+privateCluster=false, 
+kubeApiAuthorizedIpRanges=<cidr1>,<cidr2>,
+workerNodeSubnets=<subnet1>,<subnet2>
+```
+
+**What is the CLI command to register an AWS environment with a default compute cluster?**
+
+
+```
+cdp environments create-aws-environment 
+--environment-name <value> \
+--credential-name <value> \
+--region <value> \
+--security-access <value> \
+--authentication <value> \
+--log-storage <value> \
+--enable-compute-cluster
+--compute-cluster-configuration
+privateCluster=false, 
+kubeApiAuthorizedIpRanges=<cidr1>,<cidr2>,
+workerNodeSubnets=<subnet1>,<subnet2>
+```
+
+
