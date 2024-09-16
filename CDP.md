@@ -86,3 +86,21 @@ A unified framework for the development of both new and existing services, known
   - **_Maintainability_**_: Easier maintenance with modular design, clear documentation, well-defined interfaces, and streamlined processes, allowing for quick updates without causing regressions._ 
 
   - **_Centralized Gating_**_: Any new service additions can be gated against a common service readiness checklist. For example: making sure that services are added only with HA support (replicas > 1)._ 
+
+**What is the CLI command to register an AWS environment with a default compute cluster?**
+
+
+```
+cdp environments create-aws-environment 
+--environment-name <value> \
+--credential-name <value> \
+--region <value> \
+--security-access <value> \
+--authentication <value> \
+--log-storage <value> \
+--enable-compute-cluster
+--compute-cluster-configuration
+privateCluster=false, 
+kubeApiAuthorizedIpRanges=<cidr1>,<cidr2>,
+workerNodeSubnets=<subnet1>,<subnet2>
+```
